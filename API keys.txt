@@ -1,0 +1,207 @@
+Secret: bd041ca7901bd51a2ac865b8562d28f27ecc78836fae8e03a149da22fa895d22
+Public: 8420bc5541866675a4c719d9ecb5670073ff8d9fd27f4e378eb5b31b4d487b27
+
+Sergey:3Pos3BkKm65jQL2fjH71G7VTu3mefLKFfy
+
+ /**
+     
+ * Make API request with given params. Signs the request with secret key.
+    
+ * @param params
+    
+ * @return
+    
+ */
+   
+ static Response sendPOST(String url, Map<String, String> params) 
+{
+     
+        params.put("public_key", PUBLIC_KEY);
+
+        String urlParameters = buildQueryString(params, UTF_8);
+
+        Response response = new Response();
+
+        StringBuffer buf = new StringBuffer();
+
+
+        URL obj = null;
+
+        try {
+
+            obj = new URL(url);
+
+            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+
+
+            // add request header
+
+            con.setRequestProperty("HMAC", encodeHMAC(SECRET_KEY, urlParameters));
+
+            con.setRequestMethod("POST");
+
+            con.setDoOutput(true);
+
+            con.setDoInput(true);
+
+
+            // Send post request
+
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+
+            wr.writeBytes(urlParameters);
+
+            wr.flush();
+
+            wr.close();
+
+
+            // Get result
+
+            response.responseCode = con.getResponseCode();
+
+            InputStream is;
+
+            if(response.responseCode == 200) {
+
+                is = con.getInputStream();
+
+            }else{
+
+                is = con.getErrorStream();
+
+            }
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(is));
+
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+
+                buf.append(inputLine);
+
+            }
+
+            in.close();
+
+            if(response.responseCode == 200) {
+
+                response.responseData = new JSONObject(buf.toString());
+
+            }else{
+
+                try{
+
+                    response.responseData = new JSONObject(buf.toString());
+
+                    log("ERROR: HTTP " + response.responseCode + ": \n" + response.responseData.toString(4));
+
+                }catch (JSONException e) {
+
+                    log("ERROR: HTTP " + response.responseCode + ": " + buf.toString());
+
+                }
+
+            }
+
+        } catch (MalformedURLException e) {
+
+            log("ERROR: Invalid URL: " + url);
+
+            e.printStackTrace();
+
+        } catch (ProtocolException e) {
+
+            log("ERROR: Invalid request method");
+
+            e.printStackTrace();
+
+        } catch (IOException e) {
+
+            log("ERROR: input/output operation");
+
+            e.printStackTrace();
+
+        } catch (JSONException e) {
+
+            log("ERROR: Invalid json response: " + buf.toString());
+
+            e.printStackTrace();
+
+        } catch (NoSuchAlgorithmException e) {
+
+            log("ERROR: Can't find HmacSHA256 algorithm");
+
+            e.printStackTrace();
+
+        } catch (InvalidKeyException e) {
+
+            log("ERROR: Invalid secret key");
+
+            e.printStackTrace();
+
+        }
+        return response;
+
+    }
+
+
+
+    static String encodeHMAC(String key, String data) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException 
+{
+
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+
+        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes(UTF_8), "HmacSHA256");
+
+        sha256_HMAC.init(secret_key);
+
+
+        return 	DatatypeConverter.printHexBinary(sha256_HMAC.doFinal(data.getBytes(UTF_8))).toLowerCase();
+
+    }
+
+
+
+    static String buildQueryString(Map<String, String> parameters, String encoding)
+ {
+
+        return parameters.entrySet().stream()
+
+                .map(entry -> encodeParameter(entry.getKey(), entry.getValue(), encoding))
+
+                .reduce((param1, param2) -> param1 + "&" + param2)
+
+                .orElse("");
+
+    }
+
+
+
+    static String encodeParameter(String key, String value, String encoding)
+ {
+
+        return urlEncode(key, encoding) + "=" + urlEncode(value, encoding);
+
+    }
+
+
+
+    static String urlEncode(String value, String encoding) {
+
+        try {
+
+            return URLEncoder.encode(value, encoding);
+
+        }
+ catch (UnsupportedEncodingException e) 
+{
+
+            throw new IllegalArgumentException("Cannot url encode " + value, e);
+
+        }
+
+    }
+
+
+}

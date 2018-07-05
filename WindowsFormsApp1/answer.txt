@@ -1,0 +1,112 @@
+sid=067d6e8499f4527f37c54b7d45d05ee9
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/clogo/images/favicon.ico" type="image/x-icon">
+	<!-- Styles -->
+	<link rel="stylesheet" href="login/css/normalize.css"/>
+	<link rel="stylesheet" type="text/css" href="login/css/styles.css" />
+	<link rel="stylesheet" type="text/css" media="(max-width: 640px) and (orientation: portrait)" href="login/css/max-640px-and-portrait.css">
+	<link rel="stylesheet" type="text/css" media="(max-width: 640px) and (orientation: landscape)" href="login/css/max-640px-and-landscape.css">
+	<!--[if IE]> <link rel="stylesheet" type="text/css" href="login/css/styles-ie.css" /> <![endif]-->
+
+	
+	<style>
+	
+	</style>
+
+	<title>Wialon</title>
+</head>
+<body>
+
+
+
+<div class="outer-parent">
+<div class="inner-parent">
+<div class="wrapper">
+	<div class="header"></div>
+	<!-- END .header -->
+
+	<div class="content">
+		<div class="form-container">
+			<form method="POST" action="oauth.html" id="auth-form" onsubmit="checkLogin(event)">
+				<input type="hidden" name="response_type" value="">
+
+
+				<input type="hidden" name="client_id" value="Wialon">
+				<input type="hidden" name="redirect_uri" value="http://hosting.logictrail.com.ua/login.html">
+				<input type="hidden" name="access_type" value="0x100">
+
+				<input type="hidden" name="activation_time" value="0">
+				<input type="hidden" name="duration" value="2592000">
+				<input type="hidden" name="flags" value="6">
+				<input type="hidden" name="sign" value="Q5ckPZlnKqMqbyn3b1Q7/UgIgGO5fDcUU9JeGZPb6aQ=">
+
+				<input type="text" class="" name="login" id="login" placeholder="User" value=""  autocapitalize="off" autocorrect="off" dir="auto">
+				<input type="password" class="" name="passw" placeholder="Password" autocapitalize="off" autocorrect="off" dir="auto">
+				<input type="submit" value="Authorize">
+</form>
+		</div>
+		<!-- END .form-container -->
+		<div class="permissions-container">
+			<h1 class="title" dir="auto">If authorized, <span class='app-name'>Wialon</span> will be granted the following level of access to your account:
+			</h1>
+		</div>
+	</div>
+	<!-- END .content -->
+	
+		<div class='footer js-toggle-list-btn'><span class='toggle-text show'>Show details <svg width='8' height='16' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use x="0" y="8" xlink:href="login/img/arrow-down.svg#icon" class="arrow-icon" /></svg></span><span class='toggle-text hide'>Hide details <svg width='8' height='16' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use x="0" y="8" xlink:href="login/img/arrow-up.svg#icon" class="arrow-icon" /></svg></span></div>
+		<!-- Scripts -->
+		<script>
+			var access_list = {"Online tracking":["View item and its basic properties","View detailed item properties","View custom fields","Query reports or messages","View and download files","View geofences","View report templates","View drivers","View agro items","View trailers","Export messages","View commands"]};
+		</script>
+		<script src="login/js/main.js"></script>
+	
+	<!-- END .footer-->
+</div>
+</div>
+</div>
+<script>
+
+var date = new Date();
+date.setDate( date.getDate() + 30 );
+document.cookie = "lang=" + "en; path=/; expires=" + date.toUTCString();
+
+function checkLogin(e) {
+	var el = document.getElementById("login") || document.getElementById("two_factor_code");
+
+	if (!el || el.value == "") {
+		if (typeof e.preventDefault == "function")
+			e.preventDefault();
+		e.returnValue = false;
+	}
+}
+
+function onBack() {
+	var url = document.location.href;
+
+	// remove our params
+	url = url.replace(/[?&](?:p|hash|svc_error|auth_type|redirect_uri|is_two_factor)=[^&]+/g, '');
+
+	url = url.replace(/([?&])success_uri=([^&]+)/, '$1redirect_uri=$2');
+
+	// replace first & by ?
+	if (url.indexOf('?') < 0) url = url.replace(/\&/, '?');
+
+	document.location.href = url;
+}
+
+function onCodeKeyUp() {
+	var el = document.getElementById("two_factor_code");
+	if (!el) return;
+
+	el.classList.remove("invalid-code");
+}
+</script>
+<!-- END .wrapper-->
+
+</body>
+</html>
