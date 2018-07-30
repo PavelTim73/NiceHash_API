@@ -7,6 +7,8 @@ using System.Globalization;
 using System.Timers;
 using System.Net;
 using System.IO;
+using System.Diagnostics;
+using System.ComponentModel;
 
 
 namespace ConsoleApp1
@@ -18,8 +20,9 @@ namespace ConsoleApp1
         static byte Count;
         static Boolean IsOk = true;
         static string wallet = "35HUFFdAKdVpKFXm9Yj7N3FQGFVWwcPvRt";
+
         static void Main(string[] args)
-        {    
+        {
             myTimer.Elapsed += timer1_Tick;
             myTimer.Interval = 1 * 60 * 1000;
             myTimer.Start();
@@ -35,7 +38,7 @@ namespace ConsoleApp1
         public static void GetAndShowSpeed(string Wallet)
         {
             string Answer = GetNiceHashAPI(Wallet);
-          //  richTextBox1.Text = Answer;
+            //  richTextBox1.Text = Answer;
             int iNumStart, iNumEnd;
             string sFind = "\"a\":";
             iNumStart = Answer.IndexOf(sFind);
@@ -55,7 +58,16 @@ namespace ConsoleApp1
                 myTimer.Stop();
                 myTimer.Interval = 1 * 60 * 1000;
                 myTimer.Start();
-                if (Count > 3) { Console.WriteLine("Ферма стоит!!!"); }
+                if (Count > 3)
+                {// Обработка остановки фермы
+                    Console.WriteLine("Ферма стоит!!!");
+                    Console.WriteLine("Ищу watchdoginua");
+                    var process = Process.GetProcessesByName("watchdoginua");
+                    foreach (var proc in process)
+                    {
+                        Console.WriteLine(proc.ProcessName);
+                    }
+                }
             }
 
             if (IsOk)
@@ -68,8 +80,8 @@ namespace ConsoleApp1
             }
             else
             {
-                Console.WriteLine( Speed);
-                Console.WriteLine(" {0} Проход",Count.ToString());
+                Console.WriteLine(Speed);
+                Console.WriteLine(" {0} Проход", Count.ToString());
             }
 
 
@@ -86,8 +98,8 @@ namespace ConsoleApp1
 
             var data = Encoding.ASCII.GetBytes(postData);
 
-          //  richTextBox1.Text = postData;
-          //  richTextBox1.Text += Convert.ToChar(13);
+            //  richTextBox1.Text = postData;
+            //  richTextBox1.Text += Convert.ToChar(13);
 
             var request = (WebRequest)WebRequest.Create(HTTPS_URL);
             request.ContentType = "application/json"; // x - www - form - urlencoded";
@@ -111,7 +123,7 @@ namespace ConsoleApp1
         {
             TimeNow = DateTime.Now;
             string sTimeNow = TimeNow.ToString();
-            Console.WriteLine( sTimeNow.Substring(11, 5));
+            Console.WriteLine(sTimeNow.Substring(11, 5));
             GetAndShowSpeed(wallet);
         }
 

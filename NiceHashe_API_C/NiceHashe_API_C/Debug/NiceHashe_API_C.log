@@ -1,0 +1,10 @@
+﻿  stdafx.cpp
+  NiceHashe_API_C.cpp
+f:\документы\мои программы\git\nicehash_api\nicehashe_api_c\nicehashe_api_c\nicehashe_api_c.cpp(6): error C2871: System: пространство имен с таким именем не существует
+f:\документы\мои программы\git\nicehash_api\nicehashe_api_c\nicehashe_api_c\nicehashe_api_c.cpp(7): error C2653: System: не является именем класса или пространства имен
+f:\документы\мои программы\git\nicehash_api\nicehashe_api_c\nicehashe_api_c\nicehashe_api_c.cpp(7): error C2871: Timers: пространство имен с таким именем не существует
+f:\документы\мои программы\git\nicehash_api\nicehashe_api_c\nicehashe_api_c\nicehashe_api_c.cpp(9): error C2059: синтаксическая ошибка: public
+f:\документы\мои программы\git\nicehash_api\nicehashe_api_c\nicehashe_api_c\nicehashe_api_c.cpp(10): error C2143: синтаксическая ошибка: отсутствие ";" перед "{"
+f:\документы\мои программы\git\nicehash_api\nicehashe_api_c\nicehashe_api_c\nicehashe_api_c.cpp(10): error C2447: {: отсутствует заголовок функции (возможно, используется формальный список старого типа)
+f:\документы\мои программы\git\nicehash_api\nicehashe_api_c\nicehashe_api_c\nicehashe_api_c.cpp(43): error C2653: Example: не является именем класса или пространства имен
+f:\документы\мои программы\git\nicehash_api\nicehashe_api_c\nicehashe_api_c\nicehashe_api_c.cpp(43): error C3861: Demo: идентификатор не найден
