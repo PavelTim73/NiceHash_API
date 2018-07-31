@@ -66,6 +66,7 @@ namespace ConsoleApp1
                     foreach (var proc in process)
                     {
                         Console.WriteLine(proc.ProcessName);
+                        proc.Kill;
                     }
                 }
             }
@@ -123,7 +124,7 @@ namespace ConsoleApp1
         {
             TimeNow = DateTime.Now;
             string sTimeNow = TimeNow.ToString();
-            Console.WriteLine(sTimeNow.Substring(11, 5));
+            Console.WriteLine(sTimeNow);
             GetAndShowSpeed(wallet);
         }
 
